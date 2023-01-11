@@ -6,6 +6,8 @@ let boards;
 let context; // Drawing object.
 
 let gameOver = false;
+let score = 0;
+let displayedScore = document.querySelector("#scoreKeeper");
 
 
 // Snake head -> Where the snake will start from.
@@ -47,6 +49,8 @@ function update() {
     if (snakeX === foodX && snakeY === foodY) {
         snakeBody.push([foodX, foodY]);
         placeFood();
+        score += 1;
+        displayedScore.innerHTML = `Score: ${score}`;
     }
 
     //Starting from the end of the body, we want the tail to get updated X and Y co-ords so it can move with the head.
@@ -69,12 +73,17 @@ function update() {
     //Conditions for the game to be over:
     if (snakeX < 0 || snakeX > cols * blockSize || snakeY < 0 || snakeY > rows * blockSize) {
         gameOver = true;
-        alert("Game Over!");
-    }
+        if (!alert("Game Over!")) {
+            window.location.reload();
+        };
+    };
+
     for (let i = 0; i < snakeBody.length; i++) {
-        if (snakeX === snakeY[i][0] && snakeY == snakeBody[i][1]) {
+        if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
-            alert("Game Over!");
+            if (!alert("Game Over!")) {
+                window.location.reload();
+            };
         }
     }
 
